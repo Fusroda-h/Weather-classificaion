@@ -28,7 +28,7 @@ im_height = 400
 epochs = 35
 path_test = './Path'
 path_test_gt = './Path'
-path_weights='Drain_400x400_35epochs.h5'
+path_weights='../pretrained_weights/Derain_400x400_35epochs.h5'
 
 # Get and resize data
 def get_data(path,path_test, train=True):
@@ -92,14 +92,8 @@ new_model = Unet_simple()
 new_model.compile(optimizer=Adam(), loss=loss, metrics=[PSNR])
 new_model.load_weights(path_weights)
 
-# Model evaluation
-X_test,X_test_half, y_test,y_test_half = get_data(path_test, path_test_gt, train=True)
-test_loss, test_acc =new_model.evaluate([X_test,X_test_half], y_test, verbose=1)
-print(test_acc)
-preds_val = new_model.predict([X_test,X_test_half], verbose=1) 
-
 # Show test sample
-path_test_samples = ('./rainy_test1.jpg','./rainy_test2.jpg',)
+path_test_samples = ('../sample/rainy_test1.jpg','../sample/rainy_test2.jpg',)
 for i in range(len(path_test_samples)):
     test_img = load_img(path_test_samples[i], grayscale=False)
     test_img = img_to_array(test_img)

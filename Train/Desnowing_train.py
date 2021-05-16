@@ -27,7 +27,7 @@ im_height = 320
 
 path_train = './PATH'
 path_test = './PATH'
-path_weights='Desnow_400x400_30epochs.h5'
+path_weights='../pretrained_weights/Desnow_400x400_30epochs.h5'
 
 # Get and resize train images and masks
 def get_data(path,path_test, train=True):

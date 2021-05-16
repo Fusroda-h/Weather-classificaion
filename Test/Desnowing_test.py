@@ -27,7 +27,7 @@ im_height = 320
 
 path_train = './PATH'
 path_test = './PATH'
-path_weights='Desnow_400x400_30epochs.h5'
+path_weights='../pretrained_weights/Desnow_400x400_30epochs.h5'
 
 # Get and resize train images and masks
 def get_data(path,path_test, train=True):
@@ -68,27 +68,6 @@ def get_data(path,path_test, train=True):
     else:
         return X,X_half
 
-X, X_half, y, y_half = get_data(path_train, path_test, train=True)
-print(len(X),len(y),len(X_half),len(y_half))
-
-X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.2, random_state=2018)
-X_train_half, X_valid_half, y_train_half, y_valid_half = train_test_split(X_half, y_half, test_size=0.2, random_state=2018)
-print(X_train.shape, X_valid.shape)
-print(X_train_half.shape, X_valid_half.shape)
-
-#Check if the features and the target match 
-sel = random.randint(0, len(X_train)-1)
-plt.subplot(2,2,1)
-plt.imshow(X_train[sel])
-plt.subplot(2,2,2)
-plt.imshow(y_train[sel])
-
-plt.subplot(2,2,3)
-plt.imshow(X_train_half[sel])
-plt.subplot(2,2,4)
-plt.imshow(y_train_half[sel])
-plt.show()
-
 # Model Build
 def Unet_simple():
     input_img_half = Input((im_height//2, im_width//2, 3), name='img_half')
@@ -112,7 +91,7 @@ new_model.compile(optimizer=Adam(), loss=loss, metrics=[PSNR])
 new_model.load_weights(path_weights)
 
 #sample1 test
-path_testsam = ('./snowy_test1.jpg','./snowy_test2.jpg',)
+path_testsam = ('../sample/snowy_test1.jpg','../sample/snowy_test2.jpg',)
 plt.figure(figsize=(15,10))
 for i in range(len(path_testsam)):
     test_img = load_img(path_testsam[i], grayscale=False)

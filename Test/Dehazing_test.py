@@ -31,7 +31,7 @@ epochs = 30
 batch_size=4
 path_train = './PATH'
 path_test = './PATH'
-path_weights ='Dehaze_320x320_35epochs.h5'
+path_weights ='../pretrained_weights/Dehaze_320x320_35epochs.h5'
 
 # Get and resize train images and masks
 def get_data(path,path_test, train=True):
@@ -135,24 +135,10 @@ def Unet_simple():
 # Call saved model
 new_model = Unet_simple()
 new_model.compile(optimizer=Adam(), loss=loss, metrics=[PSNR])
-new_model.load_weights('Dehaze_Multi_scale_320x320_mse_ssim_mae_35epochs.h5')
-
-#model 평가
-path_test = 'C:/Users/jungw/Desktop/새 폴더/새 폴더/Dehaze/O-HAZY/hazy/'
-path_test_gt = 'C:/Users/jungw/Desktop/새 폴더/새 폴더/Dehaze/O-HAZY/GT/'
-
-X_test,X_test_half, y_test,y_test_half = get_datafortest(path_test, path_test_gt, train=True)
-
-X_TEST = Imgrefinedbydark(X_test,im_height,im_width)
-X_TEST_H = Imgrefinedbydarkforhalf(X_test_half,im_height,im_width)
-
-test_loss, test_acc = new_model.evaluate([X_TEST,X_TEST_H], y_test, verbose=1)
-print(test_acc)
-
-preds_val = new_model.predict([X_TEST,X_TEST_H], verbose=1) 
+new_model.load_weights(path_weights)
 
 #sample1 test
-path_testsam = ('./hazy_test1.jpg','./hazy_test2.jpg',)
+path_testsam = ('../sample/hazy_test1.jpg','../sample/hazy_test2.jpg',)
 plt.figure(figsize=(15,10))
 for i in range(len(path_testsam)):
     test_img = load_img(path_testsam[i], grayscale=False)

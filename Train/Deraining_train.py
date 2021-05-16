@@ -28,7 +28,7 @@ im_height = 400
 epochs = 35
 path_train = './PATH'
 path_test = './PATH'
-path_weights = 'my_weights.h5'
+path_weights = '../pretrained_weights/Derain_400x400_35epochs.h5'
 
 # Get and resize train images and masks
 def get_data(path,path_test, train=True):

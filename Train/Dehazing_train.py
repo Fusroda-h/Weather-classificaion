@@ -31,7 +31,7 @@ epochs = 30
 batch_size=4
 path_train = './PATH'
 path_test = './PATH'
-path_weights ='Dehaze_320x320_35epochs.h5'
+path_weights ='../pretrained_weights/Dehaze_320x320_35epochs.h5'
 
 # Get and resize train images and masks
 def get_data(path,path_test, train=True):
@@ -179,53 +179,3 @@ model.save_weights(path_weights)
 new_model = model
 new_model.load_weights('Dehaze_Multi_scale_320x320_mse_ssim_mae_35epochs.h5')
 
-'''
-#model 평가
-path_test = 'C:/Users/jungw/Desktop/새 폴더/새 폴더/Dehaze/O-HAZY/hazy/'
-path_test_gt = 'C:/Users/jungw/Desktop/새 폴더/새 폴더/Dehaze/O-HAZY/GT/'
-
-X_test,X_test_half, y_test,y_test_half = get_datafortest(path_test, path_test_gt, train=True)
-
-X_TEST = Imgrefinedbydark(X_test)
-X_TEST_H = Imgrefinedbydarkforhalf(X_test_half)
-
-test_loss, test_acc = new_model.evaluate([X_TEST,X_TEST_H], y_test, verbose=1)
-print(test_acc)
-
-preds_val = new_model.predict([X_TEST,X_TEST_H], verbose=1) 
-
-#sample1 test
-path = ('C:/Users/jungw/Desktop/새 폴더/새 폴더/Dehaze/HAZEsample.jpg',
-'C:/Users/jungw/Desktop/새 폴더/새 폴더/Dehaze/HAZEsample2.jpg',
-'C:/Users/jungw/Desktop/새 폴더/새 폴더/Dehaze/HAZEsample3.jpg')
-for i in range(3):
-    test_img1 = load_img(path[i], grayscale=False)
-    test_img1 = img_to_array(test_img1)
-    test_img1 = resize(test_img1, (im_height, im_width, 3), mode='constant', preserve_range=True)
-    test_img_half1 = resize(test_img1, (im_height//2, im_width//2, 3), mode='constant', preserve_range=True)
-
-    test_img1 = test_img1/255
-    test_img_half1 = test_img_half1/255
-    X_test1 = np.expand_dims(test_img1, axis=0)
-    X_test_half1 = np.expand_dims(test_img_half1, axis=0)
-
-    test1 = Imgrefinedbydark(X_test1)
-    testh1 = Imgrefinedbydarkforhalf(X_test_half1)
-
-    pred_test1 = new_model.predict([test1, testh1])
-
-    result =  resize(pred_test1[0], (4*im_height, 4*im_width, 3), mode='constant', preserve_range=True)
-    test_img1 =  resize(test_img1, (4*im_height, 4*im_width, 3), mode='constant', preserve_range=True)
-
-    plt.subplot(3,2,2*i+1)
-    plt.imshow(test_img1)
-    plt.xticks([])
-    plt.yticks([])
-    plt.grid(False)    
-    plt.subplot(3,2,2*i+2)
-    plt.imshow(result)
-    plt.xticks([])
-    plt.yticks([])
-    plt.grid(False)
-plt.show()
-'''
