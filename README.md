@@ -17,7 +17,8 @@ You can train our model with your own dataset
 ```
 You can test with the given samples.
 If you start the test files, you can see the denoised result of the test samples.
-	$ python Deraining_test.py
-	$ python Dehazing_test.py
-	$ python Desnowing_test.py
+
+$ python Deraining_test.py
+$ python Dehazing_test.py
+$ python Desnowing_test.py
 ```
